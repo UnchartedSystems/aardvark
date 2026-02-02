@@ -1,13 +1,7 @@
-{:source-paths ["test/shadow-cljs/src/main"]
- 
- :dependencies [[reagent "2.0.1"]]
- 
- :dev-http {8080 "public"}
- 
- :nrepl {:port 9000}
-
- :app {:target :browser
-       :output-dir "test/public/js/compiled"
-       :asset-path "test/js/compiled"
-       :modules {:main {:init-fn app.core/init}}}
- }
+{:deps true
+ :builds {:app {:target :browser
+                :modules {:main {:init-fn app.core/init}}
+                :output-dir "test/shadow-cljs/public/js"
+                :asset-path "/js"
+                :devtools {:http-root "test/shadow-cljs/public"
+                           :http-port 8280}}}}
