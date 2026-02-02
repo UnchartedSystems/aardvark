@@ -1,4 +1,4 @@
-{:source-paths ["test/src/main"]
+{:source-paths ["test/shadow-cljs/src/main"]
  
  :dependencies [[reagent "2.0.1"]]
  
