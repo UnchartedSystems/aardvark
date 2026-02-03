@@ -1,8 +1,7 @@
 {:deps true
- :deps/aliases [:dev/shadow]
  :builds {:app {:target :browser
                 :modules {:main {:init-fn app.core/init}}
-                :output-dir "test/shadow-cljs/public/js"
+                :output-dir "public/js"
                 :asset-path "/js"
-                :devtools {:http-root "test/shadow-cljs/public"
+                :devtools {:http-root "public"
                            :http-port 8280}}}}

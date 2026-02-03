@@ -1,6 +1,6 @@
 .DS_Store
-.shadow-cljs/
+test/shadow-cljs/.shadow-cljs/
 test/shadow-cljs/public/
-node_modules/
-npm-debug.log*
+test/shadow-cljs/node_modules/
+test/shadow-cljsnpm-debug.log*
 .cpcache/
