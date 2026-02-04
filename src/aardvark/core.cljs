@@ -7,10 +7,9 @@
 (defn watch-lang []
   (add-watch
    lang "watch-lang"
-   (fn [_ _ _ lang]
-     (println @translate-instances)
+   (fn [_ _ _ new-lang]
      (doall
-      (map (fn [{:keys [el phrases]}]
-             (set! (.-textContent el) (lang phrases)))
+      (map (fn [{:keys [el translation]}]
+             (set! (.-textContent el) (new-lang translation)))
            (vals @translate-instances))))))
 

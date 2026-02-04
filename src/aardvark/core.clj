@@ -1,19 +1,27 @@
-(ns aardvark.core)
+(ns aardvark.core
+  (:require [aardvark.prototype :refer [translations]]
+            [clojure.set :refer [difference]]))
 
-(def translations
-  {:hello {:en "Hello"
-           :fr "Bonjour"}
-   :thanks {:en "Thanks"
-            :fr "Merci"}})
+(def tr-instances (atom {}))
 
-(defmacro change-lang [lang]
+(defmacro tr-lang [lang]
   `#(reset! aardvark.core/lang ~lang))
 
-(defmacro translate [phrase]
-  (let [phrases (phrase translations)
+(defmacro tr [phrase]
+  (let [translation (phrase translations)
         id (keyword (gensym phrase))]
-    `[:span {:ref #(swap! aardvark.core/translate-instances assoc ~id {:el % :phrases ~phrases})}
-      (@aardvark.core/lang ~phrases)]))
+    (swap! tr-instances assoc phrase (meta &form))
+    `[:span {:ref #(swap! aardvark.core/translate-instances assoc ~id {:el % :translation ~translation})}
+      (@aardvark.core/lang ~translation)]))
 
-(defmacro prepare []
+(defmacro tr-prep []
   `(aardvark.core/watch-lang))
+
+(defmacro tr-logs []
+  (println @tr-instances)
+  (println (set (keys @tr-instances)))
+  (let [used-phrases (set (keys @tr-instances))
+        unused-phrases (difference (set (keys translations)) used-phrases)]
+    (println used-phrases)
+    (println unused-phrases)
+    ))
