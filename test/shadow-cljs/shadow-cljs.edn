@@ -1,4 +1,5 @@
-{:deps true
+{:deps {:aliases [:dev]}
+ :nrepl {:middleware [cider.nrepl/cider-middleware]}
  :builds {:app {:target :browser
                 :modules {:main {:init-fn app.core/init}}
                 :output-dir "public/js"

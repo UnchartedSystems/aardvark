@@ -7,6 +7,7 @@
    [:h1 "Aardvark i18n Test"]
    [:h1 (tr :hello)]
    [:p (tr :thanks)]
+   [:p (tr "string")]
    [:button {:on-click (lang :en)} "English"]
    [:button {:on-click (lang :fr)} "French"]
    [:p "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."]

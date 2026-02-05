@@ -9,7 +9,20 @@
   (swap! lang-instances assoc lang (meta &form))
   `#(reset! aardvark.core/lang ~lang))
 
-(defmacro tr [phrase]
+;; write fallback function here
+
+(defmacro tr-phrase [phrase form]
+  (let [translation (phrase translations)
+        id (keyword (gensym phrase))]
+    (swap! tr-instances assoc phrase form)
+    `[:span {:ref #(swap! aardvark.core/translate-instances assoc ~id {:el % :translation ~translation})}
+      (@aardvark.core/lang ~translation)]))
+
+(defmacro tr [input]
+  (cond
+    (string? input) 
+    (keyword? input) (tr-phrase input (meta &form))
+    (map? input))
   (let [translation (phrase translations)
         id (keyword (gensym phrase))]
     (swap! tr-instances assoc phrase (meta &form))
