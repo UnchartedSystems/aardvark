@@ -1,6 +1,6 @@
 (ns aardvark.prototype)
 
-(def translations
+(def dictionary
   {:hello {:en "Hello"
            :fr "Bonjour"
            :es "Hola"}

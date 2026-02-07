@@ -2,7 +2,7 @@
   (:require-macros [aardvark.core]))
 
 (def lang (atom :en))
-(def translate-instances (atom {}))
+(def live-translations (atom {}))
 
 (defn watch-lang []
   (add-watch
@@ -11,5 +11,5 @@
      (doall
       (map (fn [{:keys [el translation]}]
              (set! (.-textContent el) (new-lang translation)))
-           (vals @translate-instances))))))
+           (vals @live-translations))))))
 

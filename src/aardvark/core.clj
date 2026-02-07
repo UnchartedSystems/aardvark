@@ -1,45 +1,42 @@
 (ns aardvark.core
-  (:require [aardvark.prototype :refer [translations]]
+  (:require [aardvark.prototype :refer [dictionary]]
             [clojure.set :refer [difference]]))
 
 (def tr-instances (atom {}))
 (def lang-instances (atom {}))
 
-(defmacro lang [lang]
+(defmacro change-lang [lang]
   (swap! lang-instances assoc lang (meta &form))
   `#(reset! aardvark.core/lang ~lang))
 
-;; write fallback function here
+;; Rethink this!
+;; I need to change the output cljs code for each input type
+;; fallback strings:
+;; - don't get added to watch & added to live-translations
+;; - are directly rendered as a simple span with text
+;; - I need to log that the string exists
 
-(defmacro tr-phrase [phrase form]
-  (let [translation (phrase translations)
-        id (keyword (gensym phrase))]
-    (swap! tr-instances assoc phrase form)
-    `[:span {:ref #(swap! aardvark.core/translate-instances assoc ~id {:el % :translation ~translation})}
-      (@aardvark.core/lang ~translation)]))
-
-(defmacro tr [input]
+(defn- sort [input form]
   (cond
-    (string? input) 
-    (keyword? input) (tr-phrase input (meta &form))
-    (map? input))
-  (let [translation (phrase translations)
+    (keyword? input) {:phrase }))
+
+(defmacro tr [phrase]
+  (let [translations (phrase dictionary)
         id (keyword (gensym phrase))]
-    (swap! tr-instances assoc phrase (meta &form))
-    `[:span {:ref #(swap! aardvark.core/translate-instances assoc ~id {:el % :translation ~translation})}
-      (@aardvark.core/lang ~translation)]))
+    (swap! tr-instances assoc id {:phrase phrase  :form (meta &form)})
+    `[:span {:ref #(swap! aardvark.core/live-translations assoc ~id {:el % :translations ~translations})}
+      (@aardvark.core/lang ~translations)]))
 
 (defmacro tr-prep []
   `(aardvark.core/watch-lang))
 
-
 (defmacro tr-logs []
   (let [used-langs (set (keys @lang-instances))
-        all-langs (reduce #(into %1 (keys %2)) #{} (vals translations))
+        all-langs (reduce #(into %1 (keys %2)) #{} (vals dictionary))
         unused-langs (difference all-langs used-langs)
         dead-langs (difference used-langs all-langs)
         used-phrases (set (keys @tr-instances))
-        all-phrases (set (keys translations))
+        all-phrases (set (keys dictionary))
         unused-phrases (difference all-phrases used-phrases)
         dead-phrases (difference used-phrases all-phrases)]
     
