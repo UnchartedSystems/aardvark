@@ -1,5 +1,21 @@
 # High Level
 
+Aardvark is an extensible translation system that captures & logs useful information at clojurescript compile-time. The system uses protocols to enable users to adapt aardvark to their own workflow.
+
+## CLJ Compile Time
+* Parse source dictionary
+* Compile tr & locale:
+  * save bugs & stats
+  * generate cljs code
+## Compile symbols
+* log accumulated bugs & stats
+* Process output dictionary?
+## CLJS Runtime
+At runtime, the process is:
+* manage state & reactivity
+* load & use translations inlined or lazy?
+
+
 # Scope
 Start light! Just start with one implementation.
 
