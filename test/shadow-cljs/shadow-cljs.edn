@@ -1,5 +1,7 @@
 {:deps {:aliases [:dev]}
- :nrepl {:middleware [cider.nrepl/cider-middleware]}
+ :nrepl {:port 4955
+         :middleware [cider.nrepl/cider-middleware
+                      refactor-nrepl.middleware/wrap-refactor]}
  :builds {:app {:target :browser
                 :modules {:main {:init-fn app.core/init}}
                 :output-dir "public/js"

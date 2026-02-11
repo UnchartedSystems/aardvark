@@ -1,5 +1,2 @@
 {:paths ["src"]
- :deps {}
-
- :aliases
- {:dev {:extra-deps {cider/cider-nrepl {:mvn/version "0.58.0"}}}}}
+ :deps {}}
