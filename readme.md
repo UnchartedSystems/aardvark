@@ -1,51 +1,55 @@
-# High Level
-
 Aardvark is an extensible CLJS i18n translation system that captures & logs useful information at compile-time. The system uses a protocol oriented design to ensure users can adapt aardvark to their workflow.
 
-## Start of Compile-Time
+This repo is still an early WIP and so this readme is still an early scratchpad for ideas.
+
+## Scope
+Start light! Just start with one implementation.
+
+## Protocol Considerations
+
+### Considerations at each compiler stage
+#### Start of Compile-Time
 * Load and parse source dictionary(s)
-## During Compile-Time (CLJ)
+#### During Compile-Time (CLJ)
 * Compile translate (& optionally change-locale) macro instances
   * Analyze each instance against parsed in-memory dictionary and save warning, bugs, and stats.
   * Return in-place CLJS code 
-## End of Compile-Time (CLJ)
+#### End of Compile-Time (CLJ)
 * Log accumulated errors & stats
   * Translate logged warning & error dictionary locations from in-memory to source dictionary.
 * Preprocess in-memory dictionary? (e.g., to remove dead translations)
 * Convert in-memory dictionary to desired output format? (e.g., to ICU for performance?)
-## Start of Runtime (CLJS)
+#### Start of Runtime (CLJS)
 * Optionally prepare? (e.g., by setting up watchers)
-## During Runtime (CLJS)
+#### During Runtime (CLJS)
 * Optionally react when change-locale is triggered? (for example, by lazily loading locale dictionary)
 * React per translation instance after change-locale? (or is there a less choice-constraining approach?)
 
-# Scope
-Start light! Just start with one implementation.
 
-# Protocol Considerations
-## What is intrinsically coupled? What isn't?
+### What is intrinsically coupled? What isn't?
 * Generated CLJS is coupled with generated output dictionary and CLJS reactive design
 
-## Can the same definition for translating source to in-memory be used for the reverse?
+### Can the same definition for translating source to in-memory be used for the reverse?
 * if it can, should it?
 
-# In-Memory Dictionary Design
+## In-Memory Dictionary Design
 * First thought: a flat map of keywords that are qualified to represent nesting, with the val acting as a map with translations and metadata.
 
-## Why should a specific in-memory design contract exist at all vs user-specified definitions?
+### Why should a specific in-memory design contract exist at all vs user-specified definitions?
 
-## Are interpolations allowed? How are they handled?
+### Are interpolations allowed? How are they handled?
 
-## What kinds of metadata are useful to store in the dictionary?
+### What kinds of metadata are useful to store in the dictionary?
 
-# Stray Details
-## In-memory dictionary?
+## Stray Details
+
+### In-memory dictionary?
 * Why have a specific in-memory dictionary contract at all vs user-specified definitions?
   * Aardvark extensions can use a specific definition contract that allows switching extensions down the road with minimal pain.
 * What if multiple langs have same translation?
 * How should interpolations be represented?
 
-## Translation strategy analysis!
+### Translation strategy analysis!
 * Can I enable users to automate examining tradeoffs across bundle sizes?
   * Maybe I can  measure bundle sizes given different output protocol choices! (so cool)
 * Can I enable users to switch localization strategies with minimal dev time through clean decoupled protocol design!
@@ -63,62 +67,62 @@ Be maximally composable. Enable radically alternative workflows through client s
 What kind of state management & code should be generated?
 How are alternative locale translations loaded? I need to support lazy loading and inlining, but to limit scope I'll only build one.
 
-## Pre & Post Compilation Hooks
+### Pre & Post Compilation Hooks
 Needs to be done with build tools!
 
-## Figwheel vs Shadow
+### Figwheel vs Shadow
 Figwheel might need `recompile-dependents: true` to get Macro NS recompiled
 
-## Terminology:
+### Terminology:
 Language -> Locale
 
-## CLJS tr
+### CLJS tr
 Have a cljs function that throws an exception warning not to use tr at runtime.
 
-## Initializing
+### Initializing
 Allow clients to use their build tool to run this up front, or use a prep macro to initialize regardless of build tool
 
-## String Manipulations
+### String Manipulations
 Plurals, interpolation, etc.
 
-## Naming
+### Naming
 * Maybe `test` should be renamed to `examples` for users looking to understand.
 
-## Compiler Metadata
+### Compiler Metadata
 Add useful information to the compiler metadata for processing after compilation
 - &form: the s-expression representing this macro call, with line and column.
 - cljs.env & cljs.analyzer: ana is just the keyword ns in the env/*compiler* atom to get useful metadata
 
-## How to Test??
+### How to Test??
 * Compiler Errors seem Easy.
 * But how do we test browser errors??
   * nrepl connection with an "ok" signal?
 
-# Useful Examples
+## Useful Examples
 
-## Shadow
+### Shadow
 
-## Fighweel
+### Fighweel
 
-## Reagant
+### Reagant
 
-## Reframe?
+### Reframe?
 
-## DOM?
+### DOM?
 
-## Inlined Localizations
+### Inlined Localizations
 * The simple base case
 * keywords for localizations & strings for quick mockup
 
-## Lazily Loaded Localizations
+### Lazily Loaded Localizations
 * Strip comments from source dictionary into dictionaries
 * Convert from nested to minified flat keys for perf & bundle size
 * Strip dead translations out of final dictionary
 
-## ICU Localizations using Satakieli
+### ICU Localizations using Satakieli
 * Input dictionary is human readable source dictionary, output is ICU.
 
-## String First translations with mock external translation service
+### String First translations with mock external translation service
 * Very different paradigm! Is it transferable?
 
-## Are there any Accessibility considerations for demonstration?
+### Are there any Accessibility considerations for demonstration?
