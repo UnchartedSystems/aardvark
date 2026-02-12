@@ -41,26 +41,22 @@ Start light! Just start with one implementation.
 
 ### What kinds of metadata are useful to store in the dictionary?
 
-## Stray Details
+### What if locales cascade so that one locale falls back on another for some translations?
 
-### In-memory dictionary?
-* Why have a specific in-memory dictionary contract at all vs user-specified definitions?
-  * Aardvark extensions can use a specific definition contract that allows switching extensions down the road with minimal pain.
-* What if multiple langs have same translation?
-* How should interpolations be represented?
+## Stray Details
 
 ### Translation strategy analysis!
 * Can I enable users to automate examining tradeoffs across bundle sizes?
   * Maybe I can  measure bundle sizes given different output protocol choices! (so cool)
 * Can I enable users to switch localization strategies with minimal dev time through clean decoupled protocol design!
 
-## Callsite?
+### Callsite?
 Consider how clients can use their own tr macro namespace that pulls from this library for certain benefits (like accessing custom runtime symbols from the same cljs ns)
 
-## Configuration?
+### Configuration?
 How is verbosity set if the logger is user-defined?
 
-## Protocol
+### Protocol
 Be maximally composable. Enable radically alternative workflows through client side extension.
 
 ### Alt Workflows
