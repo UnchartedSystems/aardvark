@@ -28,6 +28,7 @@ Start light! Just start with one implementation.
 
 ### What is intrinsically coupled? What isn't?
 * Generated CLJS is coupled with generated output dictionary and CLJS reactive design
+* Parsing source is coupled with logging the locations of source errors.
 
 ### Can the same definition for translating source to in-memory be used for the reverse?
 * if it can, should it?
