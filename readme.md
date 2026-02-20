@@ -1,8 +1,8 @@
-Aardvark is an extensible CLJS i18n translation system that captures & logs useful information at compile-time. The system uses a composable protocol oriented design to ensure users can adapt aardvark to their workflow.
+Aardvark is an extensible CLJS i18n translation system that captures & logs useful information at compile-time. The system uses a composable protocol oriented design to ensure users can invert control & adapt aardvark to their workflow.
 
 This repo is still an early WIP and so this readme is still an early scratchpad for ideas and design notes.
 
-## Protocol Considerations
+## Compilation Stages
 
 ### Considerations at each compiler stage
 #### Start of Compile-Time
@@ -22,16 +22,6 @@ This repo is still an early WIP and so this readme is still an early scratchpad 
 * Optionally react when change-locale is triggered? (for example, by lazily loading locale dictionary)
 * React per translation instance after change-locale? (or is there a less choice-constraining approach?)
 
-
-### What is intrinsically coupled? What isn't?
-* Generated CLJS is coupled with generated output dictionary and CLJS reactive design
-* Loading & parsing source dictionary is coupled with logging specific source dictionary locations associated with errors 
-* Loading is *not* necessarily coupled with parsing source dictionaries
-* Logging instance metadata is coupled with logging accumulated errors
-
-### Can the same definition for translating source to in-memory be used for the reverse?
-* if it can, should it? I need to do more research here.
-
 ## Protocol Design
 
 ### Parsing
@@ -50,6 +40,21 @@ This repo is still an early WIP and so this readme is still an early scratchpad 
 * *If applicable!* phrases might be inlined.
 #### Optionally Prepare CLJS system
 #### (Not In Protocol) Hand-Rolled (?) Reactive CLJS
+
+## Protocol Considerations
+
+### What is the user-facing interace for configuring given approaches?
+* Maybe a User Namespace acts as a wrapper around aardvark code and configures composed functions directly in code?
+* Maybe a configuration file defines composed functions instead?
+
+### What is intrinsically coupled? What isn't?
+* Generated CLJS is coupled with generated output dictionary and CLJS reactive design
+* Loading & parsing source dictionary is coupled with logging specific source dictionary locations associated with errors 
+* Loading is *not* necessarily coupled with parsing source dictionaries
+* Logging instance metadata is coupled with logging accumulated errors
+
+### Can the same definition for translating source to in-memory be used for the reverse?
+* if it can, should it? I need to do more research here.
 
 ### How to define interfaces and prevent opaque failure when changing protocols?
 * Consider using Malli!
