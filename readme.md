@@ -1,9 +1,6 @@
-Aardvark is an extensible CLJS i18n translation system that captures & logs useful information at compile-time. The system uses a protocol oriented design to ensure users can adapt aardvark to their workflow.
+Aardvark is an extensible CLJS i18n translation system that captures & logs useful information at compile-time. The system uses a composable protocol oriented design to ensure users can adapt aardvark to their workflow.
 
-This repo is still an early WIP and so this readme is still an early scratchpad for ideas.
-
-## Scope
-Start light! Just start with one implementation.
+This repo is still an early WIP and so this readme is still an early scratchpad for ideas and design notes.
 
 ## Protocol Considerations
 
@@ -39,10 +36,11 @@ Start light! Just start with one implementation.
 
 ### Parsing
 #### Load Source Dictionary(s)
+* Not intrinsically coupled with parsing? Might be coupled with providing source locations during logging?
 #### Parse Source Dictionary(s) & Convert to In-Memory Dictionary
 * Why not condense Loading & Parsing? Changing source locations shouldn't require modifying preexisting extensions for parsing & converting common dictionary formats.
 #### Logging Source Dictionary(s) Warnings/Errors
-* Requires mapping between source dictionary(s) and in-memory dictionary. 
+* Requires mapping between source dictionary(s) and in-memory dictionary.
 ### Logging
 #### Store Instance Metadata
 #### Log Diagnostics From Metadata
@@ -52,6 +50,9 @@ Start light! Just start with one implementation.
 * *If applicable!* phrases might be inlined.
 #### Optionally Prepare CLJS system
 #### (Not In Protocol) Hand-Rolled (?) Reactive CLJS
+
+### How to define interfaces and prevent opaque failure when changing protocols?
+* Consider using Malli!
 
 ## In-Memory Dictionary Design
 * First thought: a flat map of keywords that are qualified to represent nesting, with the val acting as a map with translations and metadata.
@@ -73,7 +74,7 @@ Start light! Just start with one implementation.
 * shadow-cljs seems capable of doing this with aardvark! I'm not sure what use-cases this approach developers would find this be worth the squeeze for given the trivial perf cost of a key look-up compared to the overall perf overhead cljs itself. Consider including an example anyway... maybe this is relevant if developers want to try using aardvark with squint?
 
 ### Can aardvark work with Squint?
-* Not sure yet, if it is, it might require a fork of aardvark! Squint only works with .cljc & .cljs macros, and probably can't use the cljs.analzyer. There is a lot to consider to make this work. Even if I can get this working, I'm still not sure it can support different builds with inlined translations per locale (if that's possible, it might require an aardvark fork).
+* Not sure yet, but I doubt it. If it is, it might require a fork of aardvark! Squint only works with .cljc & .cljs macros, and probably can't use the cljs.analzyer. There is a lot to consider to make this work. Even if I can get this working, I'm still not sure it can support different builds with inlined translations per locale (if that's possible, it might require an aardvark fork).
   
 ## Control order of compile-time logging until after all tr & change-locale instances?
 * Place a logging macro at the end of the initial namespace?
